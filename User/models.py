@@ -1,10 +1,8 @@
 from django.db import models
 
-class Registration(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    models.EmailField(max_length=100)
-    password = models.CharField(max_length=50)
+from django.contrib.auth.models import AbstractUser
 
-    def __str__(self):
-        return self.first_name
+class User(AbstractUser):
+    bio = models.TextField(max_length=500, blank=True)
+    image = models.ImageField(upload_to = "user_avatars" ,blank = True, null = True)
+    
