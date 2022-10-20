@@ -1,5 +1,12 @@
 import imp
 from django.urls import path
-from .views import register_view, login_view
+from .views import register, home, login
 
-path('register/', register_view, name = 'register')
+
+urlpatterns = [
+    path('register/', register, name = 'register'),
+    path('home/', home, name = 'home'),
+    path('login/', login, name = 'login'),
+    
+
+]

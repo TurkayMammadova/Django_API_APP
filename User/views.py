@@ -1,22 +1,29 @@
-from django.shortcuts import render,redirect
-from .forms import RegisterForm, LoginForm
-from django.contrib.auth import authenticate, login
 
-def register_view(request):
-    form = RegisterForm
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib import messages
+from .forms import UserRegistrationForm , LoginForm
+from django.contrib.auth.decorators import login_required
+
+
+
+def register(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST, request.FILES)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-    context = {
-        'form': form
-    }
+            form.save()
+
+            messages.success(request, f'Your account has been created. You can log in now!')    
+            return redirect('login')
+    else:
+        form = UserRegistrationForm()
+
+    context = {'form': form}
     return render(request, 'register.html', context)
 
 
-def login_view(request):
+def login(request):
     context= {}
     context['form'] = LoginForm()
     if request.method == 'POST':
@@ -28,8 +35,13 @@ def login_view(request):
             if user:
                 login(request, user)
                 print('User is here!!!')
-                return redirect('profile')
+                return redirect('home/')
 
             print('===================')
 
     return render(request, 'login.html', context)
+
+
+@login_required(redirect_field_name='home')
+def home(request):
+    return render(request, 'home.html')

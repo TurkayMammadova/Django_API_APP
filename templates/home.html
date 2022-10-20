@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block title %}
+    <title>Home page</title>
+{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="alert alert-success" role="alert">
+    <h3>Welcome {{ user.username }}!</h3>
+</div>
+{% else %}
+<div class="alert alert-success" role="alert">
+    <h3>Welcome!</h3>
+    <a href="{% url 'register' %}">Signup</a>
+    <a href="{% url 'login' %}">Login</a>
+</div>
+{% endif %}
+{% endblock %}
