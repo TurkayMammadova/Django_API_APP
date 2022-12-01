@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+
+{% block title %}
+    <title >Registration page</title>
+{% endblock %}
+</head>
+
+  {% block content %}
+  <div>
+  <div class="w-75 bg-light p-3">
+  <div class="p-3 mb-2 bg-secondary text-white">
+<h3 style="margin-left:250px;">Register here</h3>
+</div>
+<div class="row">
+    
+<form action="" method="POST">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="col-12" >
+            <p >{{ field.label }}: <br> {{ field }}</p> 
+
+            {% for error in field.errors %}
+                <small style="color: red">{{ error }}</small>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
+    <button class="bg-primary text-white"  type="submit">Register</button>
+
+</form>
+</div>
+</div>
+{% endblock %}

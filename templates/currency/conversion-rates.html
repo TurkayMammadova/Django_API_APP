@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %} 
+    
+{%block content%}
+
+<br>
+
+<form>
+  <label for="date" style='padding-left:350px;'>Enter date</label>
+  <input id="date" type="date" name="date" value='2022-10-21'>
+  <br>
+  <br>
+  <div style="display:flex;padding-left:220px;" >
+  <div>
+  <input id="amount" style="width:100px;" type="text" name="amount" value='1'>
+  
+  <select id='from_currency' style="width:200px;" name="from_currency">
+    <option>Select a currency</option>
+    <option value='AZN'>1 Azerb....</option>
+{% for name in name_list %}
+    <option value='{{name.code}}'>{{name.name}}</option>
+{% endfor %}
+</select>
+<select id='to_currency' style="width:200px; "name="to_currency">
+  <option>Select a currency</option>
+  <option value='AZN'>1 Azerb....</option>
+{% for name in name_list %}
+  <option value='{{name.code}}'>{{name.name}}</option>
+{% endfor %}
+</select>
+<input id="result" style="width:100px;" type="text" value='1' readonly>
+<br>
+<br>
+<div style='padding-left:220px;'>
+<button class="submit_btn btn btn-primary">Submit</button>
+</div>
+</form>
+ </div>
+<br>
+<br> 
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+$('.submit_btn').click(function(e){
+  e.preventDefault()
+  let amount = $('#amount').val()
+  let from_currency = $('#from_currency').val()
+  let to_currency = $('#to_currency').val()
+  let date = $('#date').val()
+
+  $.ajax(
+  {
+    type:"GET",
+    url: "/conversion_api",
+    data:{
+        from_currency : from_currency,
+        to_currency : to_currency,
+        amount : amount,
+        date: date
+    },
+    success: function( data ) {
+        $("#result").val(data.result)
+    },
+    error: function( err ) {
+        console.log(err)
+    }
+  })
+  });
+</script>
+
+{% endblock %}
+
+    

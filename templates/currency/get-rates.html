@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% load currency %}
+
+{%block content%}
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+<h1>{{msj}}</h1>
+
+<form action="{% url 'getrates' %}" method="POST">
+  {% csrf_token %}
+  <label for="date">Enter date</label>
+  <input type="date" name="date" value="{{date}}">
+  <button class="btn" type="submit" value="Submit">Submit</button>
+
+</form>
+
+<table class="w-75">
+  <tr class="border border-success">
+    {% comment %} <th border-success>Name</th> {% endcomment %}
+    <th>Code</th>
+    <th>{{date}}</th>
+    <th>Rate</th>
+    
+  </tr>
+  <tr>
+    {% for currency in currency_list %}
+    <td class="border border-success">{{currency.code|get_currency_name}}</td>
+    <td class="border border-success">{{currency.code}}</td>
+    <td class="border border-success">{{currency.rate}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+{%endblock%}

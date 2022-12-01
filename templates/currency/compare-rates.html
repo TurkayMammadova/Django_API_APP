@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% load currency_rate %}
+{%block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+
+<p class='.bg-secondary'>{{msj}}</p>
+
+<form action="{% url 'comparerate' %}" method="POST">
+  {% csrf_token %}
+  <label for="date">Enter date</label>
+  <input type="date" name="first_date">
+  <input type="date" name="second_date">
+  <button class="btn" type="submit" value="Submit">Submit</button>
+
+</form>
+<br>
+<br>
+
+<table class="w-75" >
+  <tr class="border border-success">
+    <th>Name</th>
+    <th>Code</th>
+    <th>{{first_date}}</th>
+    <th>{{second_date}}</th>
+    <th>Difference</th>
+    
+  </tr>
+  {% for currency in currency_list %}
+  <tr>
+    
+    <td class="border border-success w-1">{{currency.get_currency_name}}</td>
+    <td class="border border-success">{{currency.code}}</td>
+    <td class="border border-success">{{currency.rate}}</td>
+    <td class="border border-success">{{currency.code|get_second_rate:second_date}}</td>
+    <td class="border border-success"><i class="fa-solid {{currency.code|currency_difference:both_dates}}"></i></td>
+    
+
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

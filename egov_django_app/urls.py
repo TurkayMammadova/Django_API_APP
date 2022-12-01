@@ -17,10 +17,18 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', include('User.urls')),
+    path('auth/', include('User.urls')),
+    path('', include('Currency.urls')),
+    path('', include('Bitcoin.urls')),
+
 ]
+
+
+

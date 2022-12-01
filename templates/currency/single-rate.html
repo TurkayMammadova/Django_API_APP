@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+    
+{%block content %}
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .btn{
+    background-color: #dddddd; 
+  }
+  </style>
+
+<p class='.bg-secondary'>{{msj}}</p>
+
+<form action="{% url 'singlerate' %}" method="POST">
+  {% csrf_token %}
+  <label for="date">Enter date</label>
+  <input type="date" name="date">
+  <label for="cars">Select code</label>
+  <select name="code" id="cars">
+    {% for currency in currency_list %}
+    <option >{{currency.code}}</option>
+    {% endfor %}
+  </select>
+  {% comment %} <input type="text" name="code"> {% endcomment %}
+  <button class="btn bg-info" type="submit" value="Submit">Submit</button>
+
+</form>
+<br>
+<br>  
+<table class="w-75" >
+  <tr class="border border-success">
+    <th>Code</th>
+    <th>{{date}}</th>
+    
+    
+</tr>
+<tr>
+    <td class="border border-success w-1">{{code}}</td>
+    <td class="border border-success">{{rate}}</td>
+    
+    
+  </tr>
+</table>
+
+{% endblock %}

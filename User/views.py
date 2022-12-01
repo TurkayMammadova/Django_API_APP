@@ -1,40 +1,78 @@
-
-from django.shortcuts import render,redirect
-from .forms import RegistrationForm, LoginForm
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login, authenticate, logout
+from django.contrib import messages
+from django.views.generic.base import ContextMixin
+from Currency.models import Menu
+from .forms import UserRegistrationForm , LoginForm
 from django.contrib.auth.decorators import login_required
 
-def register_view(request):
-    form = RegistrationForm
+
+# def nav_bar(request):
+#     print('MAhir')
+#     dates = []
+#     nav_bar = Menu.objects.all()
+#     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+#     print(nav_bar)
+#     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+#     for nav in nav_bar:
+#         data = {
+#             'url': nav.url_address,
+#             'name': nav.name
+#         }
+#         dates.append(data)
+#     context = {
+#         'dates': dates
+#     }
+
+#     return render(request, 'base.html',context)
+
+# class NavView(ContextMixin):
+#     def get_context_data(self, *args,**kwargs):
+#             context = super().get_context_data(*args, **kwargs)
+#             context["nav_links"] = Menu.objects.all()
+#             return context
+
+
+
+# @login_required(redirect_field_name='home')
+def home(request):
+    return render(request, 'home.html')
+
+
+def register(request):
+    form = UserRegistrationForm()
     if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.FILES)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-    context = {
-        'form': form
-    }
-    return render(request, 'register.html', context)
+            form.save()
+
+            messages.success(request, f'Your account has been created. You can log in now!')    
+            return redirect('login')
+
+    context = {'form': form}
+    return render(request, 'auth/register.html', context)
 
 
-def login_view(request):
-    context= {}
-    context['form'] = LoginForm()
+def login(request):
+    form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
-            if user:
-                login(request, user)
-                print('User is here!!!')
-                return redirect('profile/')
+            if user is not None:
+                auth_login(request, user)
+           
+                return redirect('home')
 
-    return render(request, 'login.html', context)
+    context = {'form': form}    
+    return render(request, 'auth/login.html', context)
 
 
 @login_required
-def profile_view(request):
-	return render(request,'profile.html')
+def logout_view(request):
+    logout(request)
+    return redirect('login') 
+
+

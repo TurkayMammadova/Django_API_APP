@@ -1,10 +1,13 @@
 import imp
 from django.urls import path
-from .views import register_view,  profile_view
+from .views import register, home, login, logout_view
 
-  urlpatterns = [
-    # path('login/', login, name = 'login'),
-    path('register/', register_view, name = 'register'),
-    path('profile/', profile_view, name = 'profile'),
 
-  ]
+urlpatterns = [
+    # path('', home, name = 'home'),
+    path('register/', register, name = 'register'),
+    path('login/', login, name = 'login'),
+    path('logout/', logout_view, name = 'logout'),
+    
+
+]

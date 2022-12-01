@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% load bitcoin %}
+{% block content %}
+
+<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    
+      
+    }
+    
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    .basliq{
+        margin-left:450px;
+    }
+    </style>
+
+<h1 class="basliq">Bitcoin</h1>
+<div class="tables" style='margin-left:-80px; width: 85%;'>
+    <table id="customers">
+                            <tr>
+                                
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>MarketCap</th>
+                                <th>VWAP(24hr)</th>
+                                <th>Supply</th>
+                                <th>Volume(24hr)</th>
+                                <th>Change(24hr)</th>
+                                
+
+
+
+                            </tr>
+                        <tbody>
+                            {% for coin in coin_list %}
+                            <tr>
+                            
+                                <td>{{coin.rank}}</td>
+                                <td>
+                                <div class='row'>
+                                <div class='col-6'><img src="{% static 'images/coin.image.png'%}"</div>
+                                <div class='col-3'>{{coin.name}}</div>
+                                <div class='col-3'>{{coin.symbol}}</div>
+                                </div>
+                                </td>
+                                <td>${{coin.priceUsd|number_filter}}</td>
+                                <td>${{coin.marketCapUsd|number_filter}}</td>
+                                <td>${{coin.vwap24Hr|number_filter}}</td>
+                                <td>{{coin.supply|number_filter}}</td>
+                                <td>${{coin.volumeUsd24Hr|number_filter}}</td>
+                                <td></td>
+
+
+                            </tr>
+                            {% endfor %}
+                                
+                   </table>
+                   <table>
+                            
+                   </table></div>
+                   
+
+{% endblock %}

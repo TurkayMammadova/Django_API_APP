@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title>Login page</title>
+{% endblock %}
+{% block content %}
+<div>
+  <div class="w-75 bg-light p-3">
+  <div class="p-3 mb-2 bg-secondary text-white">
+<h3 style="margin-left:300px;">login</h3>
+</div>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        
+    {% for field in form %}
+    <p >{{ field.label }}: <br> {{ field }}</p> 
+    </div>
+    {% endfor %}
+  <button class="bg-primary text-white" type="submit">Login</button>
+  </div>
+</form>
+</div>
+
+<p style="margin-left:300px;">Don't have an account? <a href="{% url 'register' %}">Signup here</a></p>
+{% endblock %}

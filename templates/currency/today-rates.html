@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %} 
+    
+{% block content %}
+
+<style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+      
+        <body>
+        
+        <h2>Currency</h2>
+        
+        <table class="w-75">
+          <tr>
+            <th>Name</th>
+            <th>Code</th>
+            <th>{{date}}</th>
+           
+
+          </tr>
+          <tr>
+            {% for currency in currency_list %}
+            <td>{{currency.get_currency_name}}</td>
+            <td>{{currency.code}}</td>
+            <td>{{currency.rate}}</td>
+            
+          </tr>
+          {% endfor %}
+        </table>
+        
+        </body>
+        </html>
+        
+        
+
+
+{% endblock %}
